@@ -1,9 +1,8 @@
-let accountList = JSON.parse(localStorage.getItem("accountList")) || [];
+let users = JSON.parse(localStorage.getItem("users")) || [];
 function signIn(e) {
     e.preventDefault();
     let inpEmail = document.getElementById("email").value;
     let inpPassword = document.getElementById("password").value;
-    console.log(inpPassword);
     let check = false;
     let account = {};
     if (inpEmail == "") {
@@ -11,18 +10,20 @@ function signIn(e) {
     } else if (inpPassword == "") {
         alert("chưa điền mật khẩu");
     } else {
-        for (let i = 0; i < accountList.length; i++) {
-            if (inpEmail == accountList[i].emailAddress) {
-                account = accountList[i];
+        for (let i = 0; i < users.length; i++) {
+            if (inpEmail == users[i].emailAddress) {
+                account = users[i];
                 check = true;
                 break;
             }
         }
         if (check) {
             if (inpPassword == account.password) {
-
+                localStorage.setItem("checkLogin",account.id);
                 window.location.href = "../index.html";
-                localStorage.setItem("user", JSON.stringify(account));
+                // đăng nhập thành công
+                // lưu checkLogin để xác định user đã đăng nhập
+                // localStorage.setItem("users", JSON.stringify(users));
             } else {
                 alert("sai mật khẩu");
             }
