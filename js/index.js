@@ -45,7 +45,6 @@ function addToCart(productId) {
     let users = JSON.parse(localStorage.getItem("users"));
     for (let i = 0; i < users.length; i++) {
         if (users[i].id == checkLogin) {
-
             //lấy thông tin sản phẩm để đưa vào giỏ hàng
             // làm sao để lấy thông tin sản phẩm
             // console.log("11111", productId);
@@ -61,32 +60,43 @@ function addToCart(productId) {
                         trước khi thêm vào phải xem trong giỏ hàng có sản phẩm đó chưa
                         có rồi thì tăng số lượng còn chưa có thì thêm vào bt
                     */
-                   // kiểm tra xem trong giỏ hàng có tồn tại sản phẩm đó chưa
-                   // duyệt giỏ hàng
-                    let index = users[i].cart.findIndex((item,index)=>{
+                    // kiểm tra xem trong giỏ hàng có tồn tại sản phẩm đó chưa
+                    // duyệt giỏ hàng
+                    let index = users[i].cart.findIndex((item, index) => {
                         return item.id == productId
                     })
-                    if(index==-1){
+                    if (index == -1) {
                         //tức là không có thêm bình thường
                         console.log("chưa có ");
-                    }else{
+                        users[i].cart.push({ ...product[j], quantity: 1 });
+                        localStorage.setItem("users", JSON.stringify(users));
+                        showQuantityCart()
+                    } else {
                         //có rồi đi tăng số lượng
-                        console.log("có rồi");
+                        // mình phải biết vị trí của cái cần tăng
+                        users[i].cart[index].quantity = ++users[i].cart[index].quantity;
+                        localStorage.setItem("users", JSON.stringify(users));
                     }
                     // for (let index = 0; index < users[i].cart.length; index++) {
                     //         if(users.cart[index].id==productId){
-
                     //         }
-                        
                     // }
-                    users[i].cart.push({ ...product[j], quantity: 1 });
                     // sau khi push xong thì lưu trên local
-                    localStorage.setItem("users", JSON.stringify(users));
-                    
                 }
             }
-
         }
-
     }
 }
+// function hiển thị số lượng sản phẩm
+function showQuantityCart() {
+    // lấy giỏ hàng ra.length là được
+    let checkLogin = JSON.parse(localStorage.getItem("checkLogin"));
+    let users = JSON.parse(localStorage.getItem("users"));
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].id == checkLogin) {
+            // console.log(users[i].cart);
+document.getElementsByClassName("itemInCart")[0].innerHTML = users[i].cart.length
+        }
+    }
+}
+showQuantityCart()
