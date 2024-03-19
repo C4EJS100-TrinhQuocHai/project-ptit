@@ -56,27 +56,33 @@ function addToCart(productId) {
                     // lấy thông tin sản phẩm
                     console.log("1111", product[j]);
                     console.log("giỏ hàng của user sẽ là ", users[i].cart);
-                    users[i].cart.push(product[j]);
+                    // let a={...product[j],quantity:1}
+                    /* 
+                        trước khi thêm vào phải xem trong giỏ hàng có sản phẩm đó chưa
+                        có rồi thì tăng số lượng còn chưa có thì thêm vào bt
+                    */
+                   // kiểm tra xem trong giỏ hàng có tồn tại sản phẩm đó chưa
+                   // duyệt giỏ hàng
+                    let index = users[i].cart.findIndex((item,index)=>{
+                        return item.id == productId
+                    })
+                    if(index==-1){
+                        //tức là không có thêm bình thường
+                        console.log("chưa có ");
+                    }else{
+                        //có rồi đi tăng số lượng
+                        console.log("có rồi");
+                    }
+                    // for (let index = 0; index < users[i].cart.length; index++) {
+                    //         if(users.cart[index].id==productId){
+
+                    //         }
+                        
+                    // }
+                    users[i].cart.push({ ...product[j], quantity: 1 });
                     // sau khi push xong thì lưu trên local
                     localStorage.setItem("users", JSON.stringify(users));
-
-                    /* 
-                        Trước khi thêm vào giỏ hàng thì kiểm tra xem sản phẩm có trong
-                        giỏ hàng hay chưa
-                         + nếu có thì tăng số lượng
-                         + nếu chưa có thì thêm bình thường
-
-                         thông tin sản phẩm trong giỏ hàng
-                        {
-                            id:"",
-                            name:"",
-                            price:"",
-                            quantity:2
-                        }
-
-                               
-
-                    */
+                    
                 }
             }
 
